@@ -43,6 +43,14 @@ class BaseThemeFieldsMixin(object):
             widget=TextEditorWidget(),
             required=False, label=_("Product detail extra tab content"),
             help_text=_("Enter the content for the product detail extra tab.")
+        )),
+        ("product_card_extra_snippet", forms.CharField(
+            required=False, label=_("Extra content snippet to be rendered in product card."),
+            help_text=_("This content supports template variables for advanded usage."),
+            widget=TextEditorWidget(),
+        )),
+        ("show_product_availability_info", forms.BooleanField(
+            required=False, initial=False, label=_("Show product availability in product detail and product card.")
         ))
     ]
 

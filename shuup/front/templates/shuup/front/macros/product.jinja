@@ -44,7 +44,12 @@ Inheritance order for product macors:
                     {{ product.name }}
                 </div>
                 {% if show_supplier_info %}{{ render_supplier_info(supplier, render_link=False) }}{% endif %}
-                {% if shop_product and shop_product.available_until %}{{ render_availability_info(shop_product) }}{% endif %}
+                {% if xtheme.get("product_card_extra_snippet") %}
+                    {{ xtheme.render_snippet(xtheme.get("product_card_extra_snippet")|safe) }}
+                {% endif %}
+                {% if shop_product and xtheme.get("show_product_availability_info") %}
+                    {{ render_availability_info(shop_product) }}
+                {% endif %}
                 <div class="actions-wrap">
                     {% if show_prices() and not xtheme.get("hide_prices") %}
                     <div class="price">

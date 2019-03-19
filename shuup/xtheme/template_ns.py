@@ -62,6 +62,17 @@ class XthemeNamespace(object):
             return theme.get_setting(name, default=default)
         return default
 
+    @contextfunction
+    def render_snippet(self, context, snippet):
+        """
+        Renders a custom snippet using the first available template engine
+
+        :param context: Implicit Jinja2 context
+        :type context: jinja2.runtime.Context
+        """
+        from shuup.xtheme.resources import JinjaMarkupResource
+        return JinjaMarkupResource(snippet, context).render()
+
     def __getitem__(self, item):
         """
         Look for additional helper callables in the active theme.

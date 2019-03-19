@@ -367,7 +367,9 @@
 {% endmacro %}
 
 {% macro render_availability_info(shop_product) %}
+    {% if shop_product.available_until %}
     <div class="available-until">
         <small>{{ _('Available until: <span class="availability-date">{date}</span></small>').format(date=shop_product.available_until|date) }}
     </div>
+    {% endif %}
 {% endmacro %}
