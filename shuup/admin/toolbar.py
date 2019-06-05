@@ -9,6 +9,7 @@ from __future__ import unicode_literals
 
 import json
 
+from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import NoReverseMatch, reverse
 from django.middleware.csrf import get_token
 from django.utils.encoding import force_text
@@ -146,8 +147,8 @@ class SettingsActionButton(URLActionButton):
         """
         if "url" not in kwargs:
             try:
-                url = get_model_url(model, kind="list_settings")
-            except NoModelUrl:
+                url = get_model_url(model, kind="list_settings", raise_permission_denied=True)
+            except (NoModelUrl, PermissionDenied):
                 return None
             return_url = kwargs.get("return_url")
             if not return_url:
@@ -180,8 +181,8 @@ class NewActionButton(URLActionButton):
 
         if "url" not in kwargs:
             try:
-                url = get_model_url(model, kind="new")
-            except NoModelUrl:
+                url = get_model_url(model, kind="new", raise_permission_denied=True)
+            except (NoModelUrl, PermissionDenied):
                 return None
             kwargs["url"] = url
         kwargs.setdefault("text", _("New %(model)s") % {"model": model._meta.verbose_name})
