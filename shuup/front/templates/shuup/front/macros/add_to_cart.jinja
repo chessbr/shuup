@@ -1,6 +1,9 @@
-{% extends "shuup/front/macros/theme/add_to_cart.jinja" %}
+{% import "shuup/front/macros/theme/add_to_cart.jinja" as theme_macros with context %}
 
 {% macro add_product_to_cart(main_class="cover-wrap") %}
+{% if theme_macros.add_product_to_cart %}
+    {{ theme_macros.add_product_to_cart(main_class) }}
+{% else %}
     <div class="{{ main_class }}">
         <div class="text-wrap">
             <div class="ready">
@@ -17,9 +20,13 @@
         </div>
     </div>
     {{ product_to_basket_js(main_class) }}
+{% endif %}
 {% endmacro %}
 
 {% macro product_to_basket_js(main_class) %}
+{% if theme_macros.product_to_basket_js %}
+    {{ theme_macros.product_to_basket_js(main_class) }}
+{% else %}
     <script>
         function updateNavigationBasket() {
             $.ajax({
@@ -87,4 +94,5 @@
             });
         });
     </script>
+{% endif %}
 {% endmacro %}

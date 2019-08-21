@@ -1,8 +1,11 @@
-{% extends "shuup/front/macros/theme/basket.jinja" %}
+{%- import "shuup/front/macros/theme/basket.jinja" as theme_macros with context -%}
 {%- import "shuup/front/macros/order.jinja" as order_macros with context -%}
 {%- from "shuup/front/macros/general.jinja" import render_supplier_info -%}
 
 {% macro render_basket_content(basket) %}
+{% if theme_macros.add_product_to_cart %}
+    {{ theme_macros.add_product_to_cart(main_class) }}
+{% else %}
     <div class="basket-items">
         <form method="post" action="{{ url("shuup:basket") }}" id="update_basket_form">
             <input name="command" type="hidden" value="update">
@@ -14,9 +17,13 @@
         {{ render_coupon_div(basket) }}
         {{ render_basket_summary(basket) }}
     </div>
+{% endif %}
 {% endmacro %}
 
 {% macro _render_basket_line(line) %}
+{% if theme_macros.add_product_to_cart %}
+    {{ theme_macros.add_product_to_cart(main_class) }}
+{% else %}
     {% set product = line.product %}
     {% set shop_product = line.shop_product %}
     {% set show_supplier_info = xtheme.get("show_supplier_info") %}
@@ -102,9 +109,13 @@
             {% endif %}
         </div>
     </div>
+{% endif %}
 {% endmacro %}
 
 {% macro render_basket_lines(basket) %}
+{% if theme_macros.add_product_to_cart %}
+    {{ theme_macros.add_product_to_cart(main_class) }}
+{% else %}
     {% set lines = basket.get_final_lines() %}
     {% if lines %}
         <div class="basket-lines">
@@ -113,9 +124,13 @@
             {% endfor %}
         </div>
     {% endif %}
+{% endif %}
 {% endmacro %}
 
 {% macro render_unorderable_basket_lines(basket) %}
+{% if theme_macros.add_product_to_cart %}
+    {{ theme_macros.add_product_to_cart(main_class) }}
+{% else %}
     {% set unorderable_lines = basket.get_unorderable_lines() %}
     {% if unorderable_lines %}
         <div class="basket-unorderable-lines">
@@ -125,9 +140,13 @@
             {% endfor %}
         </div>
     {% endif %}
+{% endif %}
 {% endmacro %}
 
 {% macro render_basket_summary(basket) %}
+{% if theme_macros.add_product_to_cart %}
+    {{ theme_macros.add_product_to_cart(main_class) }}
+{% else %}
     <div class="basket-summary">
         {% if show_prices() and not xtheme.get("hide_prices") %}
             <div class="row">
@@ -140,26 +159,38 @@
             </div>
         {% endif %}
     </div>
+{% endif %}
 {% endmacro %}
 
 {% macro continue_shopping_button() %}
+{% if theme_macros.add_product_to_cart %}
+    {{ theme_macros.add_product_to_cart(main_class) }}
+{% else %}
     <a href="/xtheme/products"
        class="text-muted btn continue-shopping hidden-xs">
         <i class="fa fa-angle-double-left"></i>
         {% trans %}Continue Shopping{% endtrans %}
     </a>
+{% endif %}
 {% endmacro %}
 
 {% macro proceed_to_checkout_button() %}
+{% if theme_macros.add_product_to_cart %}
+    {{ theme_macros.add_product_to_cart(main_class) }}
+{% else %}
     <a href="{{ url("shuup:checkout") }}"
        class="btn btn-primary pull-right btn-checkout">
         <i class="fa fa-lock"></i>
         {% trans %}Proceed to checkout{% endtrans %}
         <i class="fa fa-angle-double-right"></i>
     </a>
+{% endif %}
 {% endmacro %}
 
 {% macro render_used_coupons(basket) %}
+{% if theme_macros.add_product_to_cart %}
+    {{ theme_macros.add_product_to_cart(main_class) }}
+{% else %}
     {% if basket.codes %}
     <div class="row basket-used-codes">
         <div class="col-sm-6 col-sm-offset-6">
@@ -175,9 +206,13 @@
         </div>
     </div>
     {% endif %}
+{% endif %}
 {% endmacro %}
 
 {% macro render_coupon_div(basket) %}
+{% if theme_macros.add_product_to_cart %}
+    {{ theme_macros.add_product_to_cart(main_class) }}
+{% else %}
     <div class="row basket-discount-code">
         <div class="col-sm-6 pull-right">
             <p class="coupon-text">{% trans %}Have a coupon code? Enter it here{% endtrans %}</p>
@@ -200,9 +235,13 @@
             <hr>
         </div>
     </div>
+{% endif %}
 {% endmacro %}
 
 {% macro render_cart_saver() %}
+{% if theme_macros.add_product_to_cart %}
+    {{ theme_macros.add_product_to_cart(main_class) }}
+{% else %}
     {% if request.person and shuup.urls.has_url("shuup:saved_cart.save") %}
         <div class="cart-saver row">
             <div class="col-sm-6 col-sm-offset-6">
@@ -233,16 +272,24 @@
             </div>
         </div>
     {% endif %}
+{% endif %}
 {% endmacro %}
 
 {% macro render_empty_basket_actions() %}
+{% if theme_macros.add_product_to_cart %}
+    {{ theme_macros.add_product_to_cart(main_class) }}
+{% else %}
     <a href="/xtheme/products" class="btn btn-primary">
         <i class="fa fa-angle-double-left"></i>
         {% trans %}Back to Products{% endtrans %}
     </a>
+{% endif %}
 {% endmacro %}
 
 {% macro render_extrajs() %}
+{% if theme_macros.add_product_to_cart %}
+    {{ theme_macros.add_product_to_cart(main_class) }}
+{% else %}
     <script type="text/javascript">
         $(function() {
             {{ update_quantity_js() }}
@@ -252,15 +299,23 @@
             {{ remove_basket_code() }}
         });
     </script>
+{% endif %}
 {% endmacro %}
 
 {% macro update_quantity_js() %}
+{% if theme_macros.add_product_to_cart %}
+    {{ theme_macros.add_product_to_cart(main_class) }}
+{% else %}
     $("#update_basket_form .quantity :input").change(function() {
         $("#update_basket_form").submit();
     });
+{% endif %}
 {% endmacro %}
 
 {% macro remove_basket_code() %}
+{% if theme_macros.add_product_to_cart %}
+    {{ theme_macros.add_product_to_cart(main_class) }}
+{% else %}
     $(".basket-remove-code-btn").click(function(evt) {
         var code = $(evt.target).data("code");
         if (code) {
@@ -285,9 +340,13 @@
             });
         }
     });
+{% endif %}
 {% endmacro %}
 
 {% macro submit_coupon_code() %}
+{% if theme_macros.add_product_to_cart %}
+    {{ theme_macros.add_product_to_cart(main_class) }}
+{% else %}
     $("#submit-code").click(function(e){
         e.preventDefault();
         var coupon = $("#discount-code").val();
@@ -316,9 +375,13 @@
             });
         }
     });
+{% endif %}
 {% endmacro %}
 
 {% macro save_cart_js() %}
+{% if theme_macros.add_product_to_cart %}
+    {{ theme_macros.add_product_to_cart(main_class) }}
+{% else %}
     {% if shuup.urls.has_url("shuup:saved_cart.save") %}
         $("#save-cart").click(function(e){
             e.preventDefault();
@@ -340,9 +403,13 @@
             });
         });
     {% endif %}
+{% endif %}
 {% endmacro %}
 
 {% macro single_submit_form() %}
+{% if theme_macros.add_product_to_cart %}
+    {{ theme_macros.add_product_to_cart(main_class) }}
+{% else %}
     window.singleSubmitForm = function($form) {
         var canSubmit = true;
         $form.submit(function() {
@@ -355,4 +422,5 @@
         });
     };
     singleSubmitForm($("#update_basket_form"));
+{% endif %}
 {% endmacro %}

@@ -1,3 +1,26 @@
+{% macro render_navigation(show_quick_login=True) %}
+    <div class="top-nav">
+        <div class="container">
+            <ul class="pull-left">
+                {{ render_search() }}
+                {{ render_info_dropdown(show_quick_login) }}
+                {{ render_language_changer() }}
+            </ul>
+            <ul class="pull-right" id="navigation-basket-partial">
+                {{ render_basket_partial(request.basket) }}
+            </ul>
+        </div>
+    </div>
+    <div class="bottom-nav">
+        <div class="container">
+            <div class="nav-content">
+                {{ render_logo() }}
+                {{ render_menu_items() }}
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
 {% macro render_menu_items() %}
     <div>
         <button class="toggle-mobile-nav">

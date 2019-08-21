@@ -2,6 +2,9 @@
 {% from "shuup/front/macros/general.jinja" import render_field with context %}
 
 {% macro render_navigation(show_quick_login=True) %}
+{% if theme_macros.render_navigation %}
+    {{ theme_macros.render_navigation(show_quick_login) }}
+{% else %}
     <div class="top-nav">
         <div class="container">
             <ul class="pull-left">
@@ -22,9 +25,13 @@
             </div>
         </div>
     </div>
+{% endif %}
 {% endmacro %}
 
 {% macro render_search() %}
+{% if theme_macros.render_search %}
+    {{ theme_macros.render_search() }}
+{% else %}
     {% if shuup.simple_search %}
         <li>
             {% block searchform %}
@@ -32,9 +39,13 @@
             {% endblock %}
         </li>
     {% endif %}
+{% endif %}
 {% endmacro %}
 
 {% macro render_info_dropdown(show_quick_login=True) %}
+{% if theme_macros.render_info_dropdown %}
+    {{ theme_macros.render_info_dropdown(show_quick_login) }}
+{% else %}
     {% if user.is_authenticated() or request.person %}
         {% call _render_info_for_authenticated_users() %}
             {% if request.person %}
@@ -95,6 +106,7 @@
 
         {% endcall %}
     {% endif %}
+{% endif %}
 {% endmacro %}
 
 {% macro _render_info_for_authenticated_users() %}
@@ -136,6 +148,9 @@
 {% endmacro %}
 
 {% macro render_language_changer() %}
+{% if theme_macros.render_language_changer %}
+    {{ theme_macros.render_language_changer() }}
+{% else %}
     {% set languages = shuup.general.get_shop_language_choices() %}
     {% if languages|length > 1 %}
         <li class="dropdown" id="language-changer">
@@ -150,9 +165,13 @@
             </ul>
         </li>
     {% endif %}
+{% endif %}
 {% endmacro %}
 
 {% macro render_basket_partial(basket, id=None) %}
+{% if theme_macros.render_basket_partial %}
+    {{ theme_macros.render_basket_partial(basket, id) }}
+{% else %}
     {% if show_prices() and not (xtheme.get("hide_prices") or xtheme.get("catalog_mode")) %}
         {% set lines = request.basket.get_lines() %}
         <li class="dropdown cart"{% if id %} id="{{ id }}"{% endif %}>
@@ -212,9 +231,13 @@
             </div>
         </li>
     {% endif %}
+    {% endif %}
 {% endmacro %}
 
 {% macro render_logo() %}
+{% if theme_macros.render_logo %}
+    {{ theme_macros.render_logo() }}
+{% else %}
     {% if request.shop.logo %}
         {% set best_height = 55 %}
 
@@ -240,25 +263,26 @@
             <a href="/" class="text"><h4>{{ request.shop.public_name }}</h4></a>
         {% endif %}
     </div>
+{% endif %}
 {% endmacro %}
 
 {% macro render_menu_items() %}
-    {% if theme_macros.render_menu_items %}
-        {{ theme_macros.render_menu_items() }}
-    {% else %}
-        <div>
-            <button class="toggle-mobile-nav">
-                <span class="sr-only">{% trans %}Menu{% endtrans %}</span>
-                <span class="hamburger"></span>
-            </button>
-            <div class="pages">
-                <ul class="nav-collapse">
-                    <li{% if request.path == "/" %} class="current"{% endif %}><a href="/">{% trans %}Home{% endtrans %}</a></li>
-                    {% set products_url = url('shuup:xtheme_extra_view', view='products') %}
-                    <li{% if request.path == products_url %} class="current"{% endif %}><a href="{{ products_url }}">{% trans %}Products{% endtrans %}</a></li>
-                    {# See Classic Gray navigation.jinja for a example to rendering navigation links here #}
-                </ul>
-            </div>
+{% if theme_macros.render_menu_items %}
+    {{ theme_macros.render_menu_items() }}
+{% else %}
+    <div>
+        <button class="toggle-mobile-nav">
+            <span class="sr-only">{% trans %}Menu{% endtrans %}</span>
+            <span class="hamburger"></span>
+        </button>
+        <div class="pages">
+            <ul class="nav-collapse">
+                <li{% if request.path == "/" %} class="current"{% endif %}><a href="/">{% trans %}Home{% endtrans %}</a></li>
+                {% set products_url = url('shuup:xtheme_extra_view', view='products') %}
+                <li{% if request.path == products_url %} class="current"{% endif %}><a href="{{ products_url }}">{% trans %}Products{% endtrans %}</a></li>
+                {# See Classic Gray navigation.jinja for a example to rendering navigation links here #}
+            </ul>
         </div>
-    {% endif %}
+    </div>
+{% endif %}
 {% endmacro %}
