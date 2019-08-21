@@ -83,7 +83,11 @@ class XthemeEnvironment(Environment):
         :rtype: shuup.xtheme.engine.XthemeTemplate
         """
         # Redirect to `get_or_select_template` to support live theme loading.
-        return self.get_or_select_template(self._get_themed_template_names(name), parent=parent, globals=globals)
+        return self.get_or_select_template(
+            self._get_themed_template_names(name, parent),
+            parent=parent,
+            globals=globals
+        )
 
     @internalcode
     def get_or_select_template(self, template_name_or_list, parent=None, globals=None):
@@ -107,7 +111,7 @@ class XthemeEnvironment(Environment):
             return template_name_or_list
         return super(XthemeEnvironment, self).select_template(template_name_or_list, parent, globals)
 
-    def _get_themed_template_names(self, name):
+    def _get_themed_template_names(self, name, parent=None):
         """
         Get theme-prefixed paths for the given template name.
 
@@ -131,6 +135,11 @@ class XthemeEnvironment(Environment):
         theme = get_middleware_current_theme()
         if not theme:
             return name
+
+        if name == "SUPER" and parent:
+            name = parent.replace("%s/" % theme.template_dir, "")
+            return name
+
         theme_template = "%s/%s" % ((theme.template_dir or theme.identifier), name)
         default_template = (("%s/%s" % (theme.default_template_dir, name)) if theme.default_template_dir else None)
         return [theme_template, default_template, name] if default_template else [theme_template, name]

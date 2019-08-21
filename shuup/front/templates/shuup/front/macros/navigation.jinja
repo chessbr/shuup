@@ -1,4 +1,3 @@
-{% extends "shuup/front/macros/theme/navigation.jinja" %}
 {% from "shuup/front/macros/general.jinja" import render_field with context %}
 
 {% macro render_navigation(show_quick_login=True) %}
@@ -242,19 +241,21 @@
     </div>
 {% endmacro %}
 
-{% macro render_menu_items() %}
-    <div>
-        <button class="toggle-mobile-nav">
-            <span class="sr-only">{% trans %}Menu{% endtrans %}</span>
-            <span class="hamburger"></span>
-        </button>
-        <div class="pages">
-            <ul class="nav-collapse">
-                <li{% if request.path == "/" %} class="current"{% endif %}><a href="/">{% trans %}Home{% endtrans %}</a></li>
-                {% set products_url = url('shuup:xtheme_extra_view', view='products') %}
-                <li{% if request.path == products_url %} class="current"{% endif %}><a href="{{ products_url }}">{% trans %}Products{% endtrans %}</a></li>
-                {# See Classic Gray navigation.jinja for a example to rendering navigation links here #}
-            </ul>
+{% if not render_menu_items %}
+    {% macro render_menu_items() %}
+        <div>
+            <button class="toggle-mobile-nav">
+                <span class="sr-only">{% trans %}Menu{% endtrans %}</span>
+                <span class="hamburger"></span>
+            </button>
+            <div class="pages">
+                <ul class="nav-collapse">
+                    <li{% if request.path == "/" %} class="current"{% endif %}><a href="/">{% trans %}Home{% endtrans %}</a></li>
+                    {% set products_url = url('shuup:xtheme_extra_view', view='products') %}
+                    <li{% if request.path == products_url %} class="current"{% endif %}><a href="{{ products_url }}">{% trans %}Products{% endtrans %}</a></li>
+                    {# See Classic Gray navigation.jinja for a example to rendering navigation links here #}
+                </ul>
+            </div>
         </div>
-    </div>
-{% endmacro %}
+    {% endmacro %}
+{% endif %}
