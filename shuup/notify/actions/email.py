@@ -105,8 +105,8 @@ class SendEmail(Action):
         body = strings.get("body")
         body_template = strings.get("body_template")
 
-        if body_template and "%(html_body)s" in body_template:
-            body = body_template % {"html_body": body}
+        if body_template and "{html_body}" in body_template:
+            body = body_template.format(html_body=body)
 
         content_type = strings.get("content_type")
         if not (subject and body):
