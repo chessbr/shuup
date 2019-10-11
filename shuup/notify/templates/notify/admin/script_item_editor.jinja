@@ -162,4 +162,7 @@
         </script>
     {% endif %}
     <script src="{{ shuup_static("notify/admin/script-item-editor.js") }}"></script>
+    {% if script_item.extra_js_template %}
+        {% include script_item.extra_js_template with context %}
+    {% endif %}
 {% endblock %}

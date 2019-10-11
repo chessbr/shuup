@@ -266,6 +266,7 @@ class Action(ScriptItem):
     provide_category = "notify_action"
     template_use = TemplateUse.NONE
     template_fields = {}
+    extra_js_template = None
 
     @abstractmethod
     def execute(self, context):

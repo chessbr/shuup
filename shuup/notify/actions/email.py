@@ -21,6 +21,8 @@ from shuup.notify.typology import Email, Language, Text
 
 
 class SendEmail(Action):
+    extra_js_template = "notify/admin/send_email_extra_js.jinja"
+
     EMAIL_CONTENT_TYPE_CHOICES = (
         ('plain', _('Plain text')),
         ('html', _('HTML'))
